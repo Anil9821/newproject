@@ -4,4 +4,4 @@ Run apt-get -y update
 Run apt-get install nodejs -y
 Run apt-get install  npm -y
 Run npm install -g http-server
-CMD["http-server", "-s"]
+CMD ["http-server", "-s"]
