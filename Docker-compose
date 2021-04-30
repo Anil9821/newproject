@@ -15,7 +15,7 @@ services:
     depends_on:
      -db
     image: wordpress
-    port: "8000:80"
+    port: "8081:8081"
     restart: always
     environment:
       wordpress_db_host: db:3306
