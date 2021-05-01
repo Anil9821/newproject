@@ -8,9 +8,9 @@
   <artifactId>pro</artifactId>
   <version>anil</version>
 
-  <name>pro</name>
+  <name>mywebsite</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>http://http://65.0.96.202:8080/</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
