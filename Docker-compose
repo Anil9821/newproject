@@ -1,30 +1,36 @@
-version: "3"
+version: '3'
 services:
-  db:
-    image: mysql:5.7
-    restart: always
-    port: "3306"
-    volumes: /var/lib/mysql
-  environment:
-    mysql_root_password: somewordpress
-    mysql_user: wordpress
-    mysql_password: wordpress
-    mysql_database: wordpress
-    
-  wordpress:
+  gerrit:
+    image: gerritcodereview/gerrit
+    ports:
+      - "29418:29418"
+      - "80:8080"
     depends_on:
-     -db
-    image: wordpress
-    port: "8081:8081"
-    restart: always
+      - ldap
+    volumes:
+      - /external/gerrit/etc:/var/gerrit/etc
+      - /external/gerrit/git:/var/gerrit/git
+      - /external/gerrit/db:/var/gerrit/db
+      - /external/gerrit/index:/var/gerrit/index
+      - /external/gerrit/cache:/var/gerrit/cache
     environment:
-      wordpress_db_host: db:3306
-      wordpress_db_user: wordpress
-      wordpress_db_password: wordpress
-      wordpress_db_name: backup
-volumes:
-  db_data: {}
-      
-      
-      
-      
+      - CANONICAL_WEB_URL=http://65.2.96.121
+    # command: init
+
+  ldap:
+    image: osixia/openldap
+    ports:
+      - "389:389"
+      - "636:636"
+    environment:
+      - LDAP_ADMIN_PASSWORD=secret
+    volumes:
+      - /external/gerrit/ldap/var:/var/lib/ldap
+      - /external/gerrit/ldap/etc:/etc/ldap/slapd.d
+
+  ldap-admin:
+    image: osixia/phpldapadmin
+    ports:
+      - "6443:443"
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=ldap
